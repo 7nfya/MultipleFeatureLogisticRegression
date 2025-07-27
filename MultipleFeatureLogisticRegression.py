@@ -1,5 +1,12 @@
 import numpy as np
 
+"""
+this logistic regression model got 89.46% accuracy at a real data set of breast cancer patients
+"""
+
+# to do:
+# 1. normalize features
+
 
 class TrainTheModelError(Exception):
     """Custom exception for accessing model methods before training."""
@@ -37,6 +44,7 @@ class MultipleFeatureLogisticRegression:
 
     def sigmoid(self, z: float) -> float:
         """Applies the sigmoid activation function."""
+        z = np.clip(z, -500, 500)   # this method lets us avoid overflowing cuz z will eventually get veryyyyyy small, less than -500
         return 1 / (1 + np.exp(-z))
 
     def train(self, ret: bool = False) -> None | tuple[np.ndarray, float]:
@@ -85,22 +93,30 @@ class MultipleFeatureLogisticRegression:
 
 
 
-def main() -> None: 
-    X: list[list[float]] = [
-        [1, 2],
-        [2, 3],
-        [3, 1],
-        [6, 5],
-        [7, 8],
-        [8, 6]
-    ]
-    y: list[int] = [0, 0, 0, 1, 1, 1]
+def main() -> None:
 
+    from sklearn.datasets import load_breast_cancer
+    data = load_breast_cancer()
+    X = data.data.tolist()  
+    y = data.target.tolist()  
+
+    print(f"Number of samples: {len(X)}")
+    print(f"Number of features: {len(X[0])}")
+    print(f"First sample features: {X[0]}")
+    print(f"First sample label: {y[0]}") 
     model = MultipleFeatureLogisticRegression(X, y)
     model.train()
-    print(model.predict([4,4]))  # Outputs 0 or 1 depending on learned weights
 
-if __name__ == '__main__':
+    correct = 0
+    for i in range(len(X)):
+      y_hat = model.predict(X[i])
+      if y_hat == y[i]:
+          correct += 1
+
+    accuracy = correct / len(X)
+    print(f"Accuracy: {accuracy * 100:.2f}%")
+
+if __name__ == "__main__":
     main()
     
 # programmer: Omar Nesr Edin
