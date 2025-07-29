@@ -64,3 +64,25 @@ testing samples' length: 114
 first testing sample: [14.54....]
 Accuracy: 99.12%
 ```
+
+---
+
+## TODO (Planned Improvements)
+
+- [ ] Visualize loss over time (matplotlib)
+- [ ] Visualize feature influence (e.g., via weights or SHAP-like explanations)
+- [ ] Save trained weights `w`, bias `b`, and split `seed` to a file (`.json`, `.txt`, etc.)
+- [ ] Add a method to load and re-use a trained model
+
+---
+
+## Requirements
+
+- Python 3.x
+- NumPy
+- (Optional) scikit-learn if using real datasets like Breast Cancer Wisconsin
+
+Install with:
+
+```bash
+pip install numpy scikit-learn
